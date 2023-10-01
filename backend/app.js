@@ -10,6 +10,9 @@ const path = require("path");
 
 const errorMiddleware = require("./middlewares/errors");
 
+// Disable 'X-Powered-By' header to mitigate the "Server Leaks Information via 'X-Powered-By'" vulnerability.
+app.disable("x-powered-by");
+
 // Use helmet to enable various security headers, including CSP.
 app.use(helmet());
 
