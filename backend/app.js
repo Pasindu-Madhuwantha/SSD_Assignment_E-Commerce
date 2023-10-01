@@ -10,11 +10,20 @@ const path = require("path");
 
 const errorMiddleware = require("./middlewares/errors");
 
+const cors = require("cors");
+
 // Disable 'X-Powered-By' header to mitigate the "Server Leaks Information via 'X-Powered-By'" vulnerability.
 app.disable("x-powered-by");
 
 // Use helmet to enable various security headers, including CSP.
 app.use(helmet());
+
+// Allow requests only from a frontend origin
+const corsOptions = {
+  origin: "http://localhost:3000/",
+};
+
+app.use(cors(corsOptions));
 
 // Define a CSP policy in your Express app.
 app.use(
