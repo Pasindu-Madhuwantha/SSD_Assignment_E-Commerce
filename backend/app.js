@@ -4,21 +4,36 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const helmet = require("helmet");
 // const dotenv = require('dotenv');
 const path = require("path");
 
 const errorMiddleware = require("./middlewares/errors");
+
+// Use helmet to enable various security headers, including CSP.
+app.use(helmet());
+
+// Define a CSP policy in your Express app.
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Allow resources to be loaded from the same origin.
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    },
+  })
+);
+
+// Setting up config file
+if (process.env.NODE_ENV !== "PRODUCTION")
+  require("dotenv").config({ path: "backend/config/config.env" });
+// dotenv.config({ path: 'backend/config/config.env' })
 
 // Middleware to set the X-Content-Type-Options header
 app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   next();
 });
-
-// Setting up config file
-if (process.env.NODE_ENV !== "PRODUCTION")
-  require("dotenv").config({ path: "backend/config/config.env" });
-// dotenv.config({ path: 'backend/config/config.env' })
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
