@@ -9,6 +9,12 @@ const path = require("path");
 
 const errorMiddleware = require("./middlewares/errors");
 
+// Middleware to set the X-Content-Type-Options header
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  next();
+});
+
 // Setting up config file
 if (process.env.NODE_ENV !== "PRODUCTION")
   require("dotenv").config({ path: "backend/config/config.env" });
