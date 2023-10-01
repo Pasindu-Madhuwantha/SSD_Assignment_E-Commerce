@@ -28,10 +28,9 @@ const Header = () => {
           <div className="navbar-brand">
             <Link to="/">
               <img
-                src="/images/1709934.png"
-                style={{ width: "80px" }}
+                src="/images/ayurda_logo.png"
+                width="90px"
                 className="ml-5"
-                alt="Company Logo"
               />
             </Link>
           </div>
